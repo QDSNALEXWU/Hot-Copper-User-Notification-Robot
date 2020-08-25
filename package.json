@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot/issues"
   },
-  "homepage": "https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot#readme"
+  "homepage": "https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot#readme",
+  "dependencies": {
+    "moment": "^2.27.0",
+    "node-fetch": "^2.6.0",
+    "node-scrapy": "^0.5.0",
+    "nodemailer": "^6.4.11"
+  }
 }
