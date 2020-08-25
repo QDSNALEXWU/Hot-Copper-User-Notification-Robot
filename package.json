@@ -1,0 +1,19 @@
+{
+  "name": "hot-copper-user-notification-robot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot/issues"
+  },
+  "homepage": "https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot#readme"
+}
