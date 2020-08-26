@@ -3,10 +3,8 @@ const fetch = require('node-fetch');
 var moment = require('moment');
 
 /**
- * Constants
+ * Constantspwd
  */
-
-const INTERVAL = 24;
 
 const postListModel = {
     posts: [
@@ -50,7 +48,7 @@ function fetchPostDetail (url) {
 /**
  * Run the crawler
  */
-async function run() {
+async function getNewPosts() {
     let newPosts = [];
     const urls = ['https://hotcopper.com.au/search/20352998/?q=%2A&t=post&o=relevance&c%5Bvisible%5D=true&c%5Buser%5D%5B0%5D=576113']
     
@@ -62,22 +60,27 @@ async function run() {
                 if(!post.date || !post.url) return false;
                 let date = post.date.includes(':') ? moment(post.date, 'hh:mm') : moment(post.date, 'DD/MM/YY');
                 let diff = today.diff(date, 'hours');
-                return diff <= INTERVAL;
+                return diff <= parseInt(process.env.INTERVAL);
             }
         )
         newPosts = [...newPosts, ...validPosts];
     }
     
+    let results = [];
+    // get detailed info of each post 
     for(let post of newPosts) {
         let url = 'https://hotcopper.com.au' + post.url;
         let data = await fetchPostDetail(url);
         data.title = data.title.trim();
         data.author = data.author.trim();
         data.url = url;
-        console.log(data);
+        data.time = post.date;
+        results.push(data);
     }
-    // get detailed info of each post 
+    return results;
 }
 
-run();
+module.exports = {
+    getNewPosts
+};
  

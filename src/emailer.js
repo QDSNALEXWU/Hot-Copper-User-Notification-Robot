@@ -1,7 +1,62 @@
 const nodemailer = require("nodemailer");
 
+/**
+ * Generate the formatted HTML 
+ * @param {*} data 
+ */
+function generateHtml(data) {
+    const rows = data.map(item => (
+        `<tr>
+            <td><a href="${item.url}">${item.title}</a></td>
+            <td>${item.author}</td>
+            <td>${item.time}</td>
+        </tr>`
+    )).join();
 
-async function main() {
+    const HTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+            
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
+            </style>
+        </head>
+        <body>
+            <h2>Posts from last ${process.env.INTERVAL} hours</h2>
+            
+            <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Time</th>
+            </tr>
+                ${rows}
+            </table>
+        </body>
+        </html>
+    `
+    return HTML
+}
+
+/**
+ * Sending email using testing emialer
+ * @param {} data 
+ */
+async function sendTestEmail(data) {
     // Generate SMTP service account from ethereal.email
     let account = await nodemailer.createTestAccount();
 
@@ -37,18 +92,13 @@ async function main() {
     // Message object
     let message = {
         // Comma separated list of recipients
-        to: '',
-
+        to: process.env.SENDTO,
         // Subject of the message
         subject: 'Nodemailer is unicode friendly ✔',
-
         // plaintext body
         text: 'Hello to myself!',
-
         // HTML body
-        html:
-            '<p><b>Hello</b> to myself <img src="cid:note@example.com"/></p>' +
-            '<p>Here\'s a nyan cat for you as an embedded attachment:<br/><img src="cid:nyan@example.com"/></p>',
+        html: generateHtml(data),
 
     };
 
@@ -61,7 +111,6 @@ async function main() {
     transporter.close();
 }
 
-main().catch(err => {
-    console.error(err.message);
-    process.exit(1);
-});
+module.exports = {
+    sendTestEmail,
+};

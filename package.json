@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/QDSNALEXWU/Hot-Copper-User-Notification-Robot#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "moment": "^2.27.0",
     "node-fetch": "^2.6.0",
     "node-scrapy": "^0.5.0",
