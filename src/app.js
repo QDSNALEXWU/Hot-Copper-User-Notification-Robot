@@ -4,7 +4,7 @@ const emailer = require('./emailer');
 
 async function run() {
     const posts = await crawler.getNewPosts();
-    emailer.sendTestEmail(posts);
+    emailer.sendEmailByGmail(posts);
 }
 
 run();

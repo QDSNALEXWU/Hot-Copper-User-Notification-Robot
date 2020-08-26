@@ -11,7 +11,7 @@ function generateHtml(data) {
             <td>${item.author}</td>
             <td>${item.time}</td>
         </tr>`
-    )).join();
+    )).join("");
 
     const HTML = `
         <!DOCTYPE html>
@@ -37,7 +37,6 @@ function generateHtml(data) {
         </head>
         <body>
             <h2>Posts from last ${process.env.INTERVAL} hours</h2>
-            
             <table>
             <tr>
                 <th>Title</th>
@@ -111,6 +110,46 @@ async function sendTestEmail(data) {
     transporter.close();
 }
 
+/**
+ * Sending email using gmail
+ * @param {} data 
+ */
+async function sendEmailByGmail(data) {
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.GMAILUSER,
+          pass: process.env.GMAILPASS
+        }
+    });
+
+    console.log('Credentials obtained, sending message...');
+
+    // Message object
+    let message = {
+        from: process.env.GMAILUSER,
+        // Comma separated list of recipients
+        to: process.env.SENDTO,
+        // Subject of the message
+        subject: '*** New Posts From Hot Copper ***',
+        // plaintext body
+        text: 'GO RICH OR GO HOME',
+        // HTML body
+        html: generateHtml(data),
+    };
+
+    let info = await transporter.sendMail(message);
+
+    console.log('Message sent successfully!');
+    console.log(nodemailer.getTestMessageUrl(info));
+
+    // only needed when using pooled connections
+    transporter.close();
+}
+
+
 module.exports = {
     sendTestEmail,
+    sendEmailByGmail
 };
