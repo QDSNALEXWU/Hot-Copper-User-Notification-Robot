@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 function generateHtml(data) {
     const rows = data.map(item => (
         `<tr>
-            <td><a href="${item.url}">${item.title}</a></td>
+            <td><a href="${item.url}">${item.title || '** no title **'}</a></td>
             <td>${item.author}</td>
             <td>${item.time}</td>
         </tr>`

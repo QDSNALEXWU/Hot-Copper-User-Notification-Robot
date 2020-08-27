@@ -22,6 +22,17 @@ const postDetailModel = {
 }
 
 /**
+ * Gnerate the list of urls to crawl
+ */
+function gernerateUrls() {
+    let urls = []
+    let targets = process.env.TARGETS.split(',');
+    urls = targets.map(i => (`https://hotcopper.com.au/search/1/?q=${i}&t=post&o=date&c[visible]=true`));
+    return urls
+}
+
+
+/**
  * Parsing the post table page
  * @param {*} url 
  */
@@ -50,11 +61,13 @@ function fetchPostDetail (url) {
  */
 async function getNewPosts() {
     let newPosts = [];
-    const urls = ['https://hotcopper.com.au/search/20352998/?q=%2A&t=post&o=relevance&c%5Bvisible%5D=true&c%5Buser%5D%5B0%5D=576113']
-    
+    //const urls = gernerateUrls();
+    const urls = [process.env.URL];
+
     // fetch post table pages to get list of new adds
     for (let url of urls) {
         let result = await fetchPostList(url);
+        if(!result.posts) continue;
         let today = moment();
         let validPosts = result.posts.filter(post => {
                 if(!post.date || !post.url) return false;
